@@ -35,23 +35,23 @@ export const productReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
-      case FETCH_PRODUCT_DETAIL_REQUEST:
+    case FETCH_PRODUCT_DETAIL_REQUEST:
         return {
           ...state,
           loading: true,
         };
-        case FETCH_PRODUCT_DETAIL_SUCCESS:
-            return {
-              ...state,
-              loading: false,
-              productDetail: action.payload,
-            };
-case FETCH_PRODUCT_DETAIL_FAILURE:  
-return{
-    ...state,
-    loading:false,
-    error:action.payload
-}
+    case FETCH_PRODUCT_DETAIL_SUCCESS:
+        return {
+          ...state,
+          loading: false,
+          productDetail: action.payload,
+        };
+    case FETCH_PRODUCT_DETAIL_FAILURE:  
+        return{
+        ...state,
+        loading:false,
+        error:action.payload
+        }
 
     default:
       return state; // 👈 must always return state if no action matches
