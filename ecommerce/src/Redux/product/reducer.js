@@ -7,6 +7,8 @@ import {
   FETCH_PRODUCT_SUCCESS,
 } from "./actionType";
 
+
+// this is like a schema for storage
 const initialState = {
   loading: false, // typo fixed: loding → loading
   product: [],

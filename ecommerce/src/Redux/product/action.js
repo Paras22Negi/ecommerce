@@ -6,7 +6,7 @@ export const fetchProduct = () =>async(dispatch)=>{
 try{
     const res = await axios.get("https://dummyjson.com/products")
     dispatch({type:FETCH_PRODUCT_SUCCESS,payload:res.data.products})
-
+    
 }catch(error){
     dispatch({type:FETCH_PRODUCT_FAILURE,payload:error.message})    
 
