@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { fetchProduct } from '../Redux/product/action';
 import { Link } from 'react-router-dom';
 import { ClipLoader } from 'react-spinners';
+import SearchProduct from './SearchProduct';
 
 function Product() {
     const dispatch = useDispatch()
@@ -25,8 +26,11 @@ function Product() {
         <p>{error}</p>
     }
   return (
-    <div className="grid grid-cols-3 gap-4 p-4">
-      {product.map((product) => (
+<>
+<SearchProduct />
+        <div className="grid grid-cols-3 gap-4 p-4">
+      {
+      product.length>0 ? (      product.map((product) => (
         <div key={product.id} className="bg-white shado p-4 rounded">
           <img src={product.thumbnail} alt="no image uploaded" />
           <h1 className="text-lg font-bold"> {product.title} </h1>
@@ -34,8 +38,13 @@ function Product() {
             <Link to={`/productdetail/${product.id}`}>View detail</Link>
           </button>
         </div>
-      ))}
+      ))) : ("not found")
+
+      
+      
+      }
     </div>
+</>
   );
 }
 

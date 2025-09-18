@@ -5,6 +5,9 @@ import {
   FETCH_PRODUCT_FAILURE,
   FETCH_PRODUCT_REQUEST,
   FETCH_PRODUCT_SUCCESS,
+  SEARCH_PRODUCT_FAILURE,
+  SEARCH_PRODUCT_REQUEST,
+  SEARCH_PRODUCT_SUCCESS,
 } from "./actionType";
 
 const initialState = {
@@ -17,12 +20,14 @@ const initialState = {
 export const productReducer = (state = initialState, action) => {
   switch (action.type) {
     case FETCH_PRODUCT_REQUEST:
+      case SEARCH_PRODUCT_REQUEST:
       return {
         ...state,
         loading: true,
       };
 
     case FETCH_PRODUCT_SUCCESS:
+      case SEARCH_PRODUCT_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -30,6 +35,7 @@ export const productReducer = (state = initialState, action) => {
       };
 
     case FETCH_PRODUCT_FAILURE:
+      case SEARCH_PRODUCT_FAILURE :
       return {
         ...state,
         loading: false,

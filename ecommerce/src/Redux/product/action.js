@@ -1,5 +1,5 @@
 import axios from "axios"
-import { FETCH_PRODUCT_DETAIL_FAILURE, FETCH_PRODUCT_DETAIL_REQUEST, FETCH_PRODUCT_DETAIL_SUCCESS, FETCH_PRODUCT_FAILURE, FETCH_PRODUCT_REQUEST, FETCH_PRODUCT_SUCCESS } from "./actionType"
+import { FETCH_PRODUCT_DETAIL_FAILURE, FETCH_PRODUCT_DETAIL_REQUEST, FETCH_PRODUCT_DETAIL_SUCCESS, FETCH_PRODUCT_FAILURE, FETCH_PRODUCT_REQUEST, FETCH_PRODUCT_SUCCESS, SEARCH_PRODUCT_FAILURE, SEARCH_PRODUCT_REQUEST, SEARCH_PRODUCT_SUCCESS } from "./actionType"
 
 export const fetchProduct = () =>async(dispatch)=>{
     dispatch({type:FETCH_PRODUCT_REQUEST})
@@ -22,4 +22,14 @@ try{
 } catch (error){
     dispatch({type:FETCH_PRODUCT_DETAIL_FAILURE,payload:error.message})
 }
+}
+
+export const searchProduct = (querry)=>async(dispatch) =>{
+    dispatch({type:SEARCH_PRODUCT_REQUEST})
+    try{
+            const res = await axios.get(`https://dummyjson.com/products/search?q=${querry}`)
+            dispatch({type:SEARCH_PRODUCT_SUCCESS,payload:res.data.products})
+    } catch(error){
+        dispatch({type:SEARCH_PRODUCT_FAILURE,payload:error.message})
+    }
 }
