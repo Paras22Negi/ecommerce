@@ -1,32 +1,36 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
-import { searchProduct } from '../Redux/product/action'
+import React, { useState } from 'react';
 
-function SearchProduct() {
-    const [querry, setQuerry] = useState("")
-    const dispatch = useDispatch()
-    const handleChange =(e)=>{
-        setQuerry(e.target.value)
-    }
-    const handleSubmit =(e)=>{
-        e.preventDefault()
-        if(querry.trim()){
-            dispatch(searchProduct(querry))
-        }
-    }
+function SearchProduct({ onSearch }) {
+  const [querry, setQuery] = useState("");
+
+  const handleChange = (e) => {
+    setQuery(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if(onSearch) onSearch(querry)
+   };
+
   return (
-    <div>
-        <form onSubmit={handleSubmit}>
-            <input  className='border-2'
-            type:text
-            value={querry}
-            onChange={handleChange}
-            placeholder='search product here'
-            />
-            <button>Search</button>
-        </form>
+    <div className="flex justify-center p-4">
+      <form onSubmit={handleSubmit} className="flex">
+        <input
+          className="border-2 border-gray-300 px-4 py-2 rounded w-80"
+          type="text"
+          value={querry}
+          onChange={handleChange}
+          placeholder="Search product here"
+        />
+        <button
+          type="submit"
+          className="ml-2 px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          Search
+        </button>
+      </form>
     </div>
-  )
+  );
 }
 
-export default SearchProduct
+export default SearchProduct;

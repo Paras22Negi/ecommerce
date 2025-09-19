@@ -30,7 +30,17 @@ function ProductDetail() {
     <div>
       <h2>Product details</h2>
       {productDetail.title}
-      <img src={productDetail.images} className='w-[200px]' />
+      <div className='flex gap-4 mb-6'>
+        {productDetail.images?.map((img,index)=>(
+          <img
+          key={index} 
+          src={img} 
+          onClick={set}
+          alt={`${productDetail.title}${index}`}
+          className='flex w-15 h-15 object-contain '
+          />
+        ))}
+      </div>
 
     </div>
   )
