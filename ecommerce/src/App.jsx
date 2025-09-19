@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Product />} />
         <Route path='/productdetail/:id' element={<ProductDetail />} />
-        {console.log(count)} 
+        {console.log(count)}
       </Routes>
     </>
   )

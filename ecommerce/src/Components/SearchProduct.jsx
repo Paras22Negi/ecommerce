@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { searchProduct } from '../Redux/product/action'
 import { FaSearch } from "react-icons/fa";
 
-function SearchProduct() {
+function SearchProduct({onSearch}) {
     const [query,setQuery]=useState("")
     const dispatch = useDispatch()
     

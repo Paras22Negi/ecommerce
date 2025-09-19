@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchProduct } from '../Redux/product/action';
 import { Link } from 'react-router-dom';
@@ -7,13 +7,32 @@ import { ClipLoader } from 'react-spinners';
 import SearchProduct from './SearchProduct';
 
 function Product() {
-    const dispatch = useDispatch()
-    const { loading, error, product } = useSelector((state) => state.productState);
+    // const dispatch = useDispatch()
+    // const { loading, error, product } = useSelector((state) => state.productState);
+    // useEffect(()=>{
+    //     dispatch(fetchProduct())
+    // },[dispatch])
+    // console.log(product)
+    // console.log(loading)
+
+    const [product, setProduct] = useState([])
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
+    const fetchProduct=()=>{
+      setLoading(true)
+      setError(null)
+      axios.get("https://dummyjson.com/products").then((res)=>{
+        setProduct(res.data.products)
+        console.log(res)
+        setLoading(false)
+      }).catch((err)=>{
+        setError(err)
+        setLoading(false)
+      })
+    }
     useEffect(()=>{
-        dispatch(fetchProduct())
-    },[dispatch])
-    console.log(product)
-    console.log(loading)
+      fetchProduct()
+    },[]);
 
     if(loading){
         return(
@@ -27,7 +46,7 @@ function Product() {
     }
   return (
     <>
-      <SearchProduct />
+      <SearchProduct onSearch={fetchProduct} />
       <div className="grid grid-cols-3 gap-4 p-4">
         {product.length > 0
           ? product.map((product) => (
