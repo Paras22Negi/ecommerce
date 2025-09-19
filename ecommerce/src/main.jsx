@@ -6,11 +6,13 @@ import { Provider } from 'react-redux'
 import store from './Redux/store.js'
 import { BrowserRouter } from 'react-router-dom'
 import React from 'react'
+import Header from './Components/Header.jsx'
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
       <Provider store={store}>
+        <Header />
         <App />
       </Provider>
     </BrowserRouter>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, {useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchProductDetail } from '../Redux/product/action'
@@ -6,36 +6,43 @@ import { ClipLoader } from "react-spinners";
 
 function ProductDetail() {
     const { loading, error, productDetail } = useSelector((state) => state.productState );
-    
     const {id} = useParams()
     const dispatch = useDispatch()
+    const [selectedImage, setSelectedImage] = useState(null)
     useEffect(()=>{
         dispatch(fetchProductDetail(id))
     },[dispatch,id])
 
-     if(loading){
-            return(
-                <div className='flex justify-center items-center h-screen'>
-                    <ClipLoader colort="#3B82F6" size={50} />
-                </div>
-            )
-        }
-
+     if (loading) {
+       return (
+         <div className="flex justify-center items-center h-screen">
+           <ClipLoader colort="#3B82F6" size={50} />
+         </div>
+       );
+     }
     if(error){
-        <p>{error}</p>
+        <p className='text-red-500'>{error}</p>
     }
   return (
     <div className="max-w-5xl mx-auto p-6">
       <h2 className="text-2xl font-bold mb-4">{productDetail.title}</h2>
-
+      {/*MainImage*/}
+      <div className="mb-6">
+        <img
+          src={selectedImage || productDetail.thumbnail}
+          alt={productDetail.title}
+          className="w-1/2 max-h-[400px] object-contain rounded-lg border"
+        />
+      </div>
       {/* Product Images */}
       <div className="flex gap-4 mb-6">
         {productDetail.images?.map((img, index) => (
           <img
             key={index}
             src={img}
-            alt={productDetail.title}
-            className="w-40 h-40 object-cover rounded-lg border"
+            alt={`${productDetail.title} ${index}`}
+            className="w-15 h-15 object-cover rounded-lg border cursor-pointer hover:scale-103 transition"
+            onClick={() => setSelectedImage(img)}
           />
         ))}
       </div>
