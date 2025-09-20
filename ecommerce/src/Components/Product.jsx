@@ -18,15 +18,18 @@ function Product() {
     const [product, setProduct] = useState([])
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
+    const [isSearching, setIsSearching] = useState(false)
     const fetchProduct=()=>{
       setLoading(true)
       setError(null)
       axios.get("https://dummyjson.com/products").then((res)=>{
         setProduct(res.data.products)
         console.log(res)
-        setLoading(false)
+        setIsSearching(false)
       }).catch((err)=>{
         setError(err)
+      })
+      .finally(()=>{
         setLoading(false)
       })
     }
@@ -34,7 +37,24 @@ function Product() {
       fetchProduct()
     },[]);
 
-    if(loading){
+    const handleSearch=(query)=>{
+      setLoading(true)
+      setError(null)
+      setIsSearching(true)
+      axios.get(`https://dummyjson.com/products/search?q=${query}`)
+      .then((res)=>{
+        setProduct(res.data.products || [])
+      })
+      .catch((err)=>{
+        setError(err.message || "error searching product")
+      })
+      .finally(()=>{
+        setIsSearching(false)
+        setLoading(false)
+      })
+    }
+
+    if(loading ){
         return(
             <div className='flex justify-center items-center h-screen'>
                 <ClipLoader colort="#3B82F6" size={50} />
@@ -46,7 +66,7 @@ function Product() {
     }
   return (
     <>
-      <SearchProduct onSearch={fetchProduct} />
+      <SearchProduct onSearch={handleSearch} />
       <div className="grid grid-cols-3 gap-4 p-4">
         {product.length > 0
           ? product.map((product) => (

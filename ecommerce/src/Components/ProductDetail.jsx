@@ -3,26 +3,48 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { fetchProductDetail } from '../Redux/product/action'
 import { ClipLoader } from "react-spinners";
+import axios from 'axios';
 
 function ProductDetail() {
-    const { loading, error, productDetail } = useSelector((state) => state.productState );
-    const {id} = useParams()
-    const dispatch = useDispatch()
-    const [selectedImage, setSelectedImage] = useState(null)
-    useEffect(()=>{
-        dispatch(fetchProductDetail(id))
-    },[dispatch,id])
+  const { id } = useParams();
+  // const { loading, error, productDetail } = useSelector((state) => state.productState );
+  // const dispatch = useDispatch()
+  // useEffect(()=>{
+  //     dispatch(fetchProductDetail(id))
+  // },[dispatch,id])
+  const [selectedImage, setSelectedImage] = useState(null)
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [productDetail, setProductDetail] = useState([]);
+  const fetchProductDetail = () => {
+    setLoading(true);
+    setError(null);
+    axios
+      .get(`https://dummyjson.com/products/${id}`)
+      .then((res) => {
+        setProductDetail(res.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message || "some error geting Product Details");
+        setLoading(false);
+      });
+  };
 
-     if (loading) {
-       return (
-         <div className="flex justify-center items-center h-screen">
-           <ClipLoader colort="#3B82F6" size={50} />
-         </div>
-       );
-     }
-    if(error){
-        <p className='text-red-500'>{error}</p>
-    }
+  useEffect(() => {
+    fetchProductDetail();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <ClipLoader colort="#3B82F6" size={50} />
+      </div>
+    );
+  }
+  if (error) {
+    <p className="text-red-500">{error}</p>;
+  }
   return (
     <div className="max-w-5xl mx-auto p-6">
       <h2 className="text-2xl font-bold mb-4">{productDetail.title}</h2>

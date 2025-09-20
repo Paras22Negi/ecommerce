@@ -5,17 +5,20 @@ import { FaSearch } from "react-icons/fa";
 
 function SearchProduct({onSearch}) {
     const [query,setQuery]=useState("")
-    const dispatch = useDispatch()
+    // const dispatch = useDispatch()
     
     const handleChange =(e)=>{
-        setQuery(e.target.value)
+      setQuery(e.target.value)
     }
 
     const handleSubmit=(e)=>{
         e.preventDefault();
-        if(query.trim()){
-            dispatch(searchProduct(query))
+        if(onSearch){
+          onSearch(query)
         }
+        // if(query.trim()){
+        //     dispatch(searchProduct(query))
+        // }
     }
 
   return (
