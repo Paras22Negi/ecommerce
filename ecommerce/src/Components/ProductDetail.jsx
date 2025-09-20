@@ -15,6 +15,7 @@ function ProductDetail() {
   const [selectedImage, setSelectedImage] = useState(null)
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [imgLoading, setImgLoading] =useState(false)
   const [productDetail, setProductDetail] = useState([]);
   const fetchProductDetail = () => {
     setLoading(true);
@@ -45,6 +46,11 @@ function ProductDetail() {
   if (error) {
     <p className="text-red-500">{error}</p>;
   }
+
+  const handleImgChange=(img)=>{
+    setImgLoading(true)
+    setSelectedImage(img)
+  }
   
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -59,10 +65,16 @@ function ProductDetail() {
         <div>
           {/* Main Image */}
           <div className="mb-4">
+            {imgLoading && (
+              <div className="absolute flex justify-center items-center w-[540px] h-[400px] bg-white/60 rounded-lg">
+                <ClipLoader color="#3B82F6" size={50} />
+              </div>
+            )}
             <img
               src={selectedImage || productDetail.thumbnail}
               alt={productDetail.title}
-              className="w-full h-[400px] object-contain rounded-lg border shadow-sm"
+              className="w-full h-[400px] object-contain rounded-lg border shadow-sm "
+              onLoad={() => setImgLoading(false)}
             />
           </div>
 
@@ -76,7 +88,7 @@ function ProductDetail() {
                 className={`w-20 h-20 object-cover rounded-lg border cursor-pointer transition transform hover:scale-105 ${
                   selectedImage === img ? "ring-2 ring-blue-500" : ""
                 }`}
-                onClick={() => setSelectedImage(img)}
+                onClick={() => handleImgChange(img)}
               />
             ))}
           </div>
